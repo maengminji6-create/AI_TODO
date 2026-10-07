@@ -8,7 +8,25 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="intro-on">
+
+<!-- 인트로 -->
+<div class="intro" id="intro" aria-label="인트로">
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="rings" aria-hidden="true">
+    <div class="orbit o1" id="orbit1"></div>
+    <div class="orbit o2" id="orbit2"></div>
+  </div>
+  <div class="intro-center">
+    <p class="intro-eyebrow" id="introEyebrow"></p>
+    <h1 class="intro-title" id="introTitle">AI 통합 대시보드</h1>
+    <p class="intro-sub">무엇을 할 수 있는지, 어떻게 쓰는지, 얼마인지 — 한눈에.</p>
+    <button class="intro-cta" id="introCta" type="button">대시보드 열기 <span aria-hidden="true">→</span></button>
+  </div>
+  <button class="intro-skip" id="introSkip" type="button">건너뛰기</button>
+  <div class="intro-progress" aria-hidden="true"><i></i></div>
+</div>
+
 <div class="app">
 
   <header class="topbar">

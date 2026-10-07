@@ -206,9 +206,9 @@ $("#summaryText").innerHTML =
   `${CATEGORIES.length}개 분야 · ${SERVICES.length}개 서비스<span class="sep">|</span><span class="legend"><i class="free-dot"></i>무료로 시작 가능 ${SERVICES.filter((s) => s.free).length}</span><span class="legend"><i class="star-i">★</i>추천 시작점</span>`;
 
 /* ---------- 분야 레인 ---------- */
-$("#board").innerHTML = CATEGORIES.map((c) => {
+$("#board").innerHTML = CATEGORIES.map((c, i) => {
   const list = SERVICES.filter((s) => s.cat === c.id);
-  return `<div class="lane" style="${catVar(c.id)}">
+  return `<div class="lane" style="${catVar(c.id)}; --i: ${i}">
     <div class="lane-label">
       <span class="name"><span class="dot"></span>${esc(c.name)}</span>
       <span class="n">${list.length}개 서비스</span>
@@ -343,3 +343,56 @@ $("#freeBtn").addEventListener("click", (e) => {
 })();
 
 renderHome();
+
+/* ---------- 인트로 ---------- */
+(() => {
+  const intro = $("#intro");
+  const body = document.body;
+  let seen = false;
+  try { seen = sessionStorage.getItem("introSeen") === "1"; } catch (e) {}
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (seen || reduced) {
+    intro.remove();
+    body.classList.remove("intro-on");
+    body.classList.add("ready");
+    return;
+  }
+
+  // 궤도 로고 (같은 도메인은 한 번만)
+  const uniq = [...new Map(SERVICES.map((s) => [s.domain, s])).values()];
+  const inner = uniq.slice(0, 7), outer = uniq.slice(7);
+  const place = (list, el, offset) => {
+    el.innerHTML = list.map((s, k) => `
+      <span class="o" style="--a: ${(360 / list.length) * k + offset}deg">
+        <span class="o-in"><span class="o-logo" style="--d: ${(k * 0.07 + offset / 400).toFixed(2)}s">${logo(s)}</span></span>
+      </span>`).join("");
+  };
+  place(inner, $("#orbit1"), 0);
+  place(outer, $("#orbit2"), 20);
+
+  $("#introEyebrow").textContent = `${SERVICES.length} AI SERVICES · ${CATEGORIES.length} CATEGORIES`;
+
+  // 제목 글자별 등장
+  const title = $("#introTitle");
+  title.innerHTML = [...title.textContent].map((ch, k) =>
+    `<span style="--k: ${k}">${ch === " " ? "&nbsp;" : esc(ch)}</span>`).join("");
+
+  let done = false;
+  const enter = () => {
+    if (done) return;
+    done = true;
+    clearTimeout(timer);
+    intro.classList.add("leaving");
+    body.classList.remove("intro-on");
+    body.classList.add("ready");
+    try { sessionStorage.setItem("introSeen", "1"); } catch (e) {}
+    setTimeout(() => intro.remove(), 1000);
+    setTimeout(() => body.classList.add("settled"), 1600); // 등장 애니메이션이 멈춰도 화면이 보이도록
+  };
+  const timer = setTimeout(enter, 6000);
+  intro.addEventListener("click", enter);
+  document.addEventListener("keydown", (e) => {
+    if (!done && ["Enter", "Escape", " "].includes(e.key)) { e.preventDefault(); enter(); }
+  });
+})();
