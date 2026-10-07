@@ -202,6 +202,7 @@ function logo(s, size = "") {
   </span>`;
 }
 
+$("#brandEyebrow").textContent = `${SERVICES.length} AI SERVICES · ${CATEGORIES.length} CATEGORIES`;
 $("#summaryText").innerHTML =
   `${CATEGORIES.length}개 분야 · ${SERVICES.length}개 서비스<span class="sep">|</span><span class="legend"><i class="free-dot"></i>무료로 시작 가능 ${SERVICES.filter((s) => s.free).length}</span><span class="legend"><i class="star-i">★</i>추천 시작점</span>`;
 
@@ -231,10 +232,11 @@ let selected = null;
 
 function renderHome() {
   const d = $("#detail");
-  d.className = "detail";
+  d.className = "detail glass";
   d.style.cssText = "";
   d.innerHTML = `<div class="detail-scroll fade">
-    <p class="eyebrow">상황별 추천</p>
+    <p class="eyebrow">RECOMMEND</p>
+    <h2 class="panel-title">상황별 추천</h2>
     <ul class="recs">${RECOMMEND.map(([want, ids]) => `<li class="rec">
       <button class="rec-btn" type="button" data-id="${ids[0]}">
         <span class="rec-text">
@@ -261,7 +263,7 @@ function renderDetail(s) {
   const note = (cls, k, v) => v ? `<div class="note ${cls}"><b>${k}</b>${esc(v)}</div>` : "";
   const rec = RECOMMEND.find(([, ids]) => ids.includes(s.id));
   const d = $("#detail");
-  d.className = "detail" + (narrow() ? " sheet" : "");
+  d.className = "detail glass" + (narrow() ? " sheet" : "");
   d.style.cssText = catVar(s.cat);
   d.innerHTML = `<div class="detail-scroll fade">
     <button class="back" type="button" data-back>
@@ -336,7 +338,7 @@ $("#freeBtn").addEventListener("click", (e) => {
   const root = document.documentElement;
   try { const t = localStorage.getItem("theme"); if (t) root.dataset.theme = t; } catch (e) {}
   $("#themeBtn").addEventListener("click", () => {
-    const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    const dark = root.dataset.theme !== "light";
     root.dataset.theme = dark ? "light" : "dark";
     try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
   });
