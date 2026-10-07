@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 통합 대시보드</title>
+<meta name="description" content="AI 서비스를 분야별로 탐색하고 기능·사용법·요금을 비교하는 대시보드">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <h1>AI 통합 대시보드</h1>
+      <p>
+        <span id="summaryText"></span><span class="sep">|</span>
+        <span class="info" tabindex="0">자료 기준
+          <span class="tip" role="tooltip">사용자가 제공한 AI_아바타.xlsx의 기록. 체험 소감과 비용은 작성 시점·계정·지역에 따라 달라질 수 있으므로 실제 사용 전 서비스 페이지에서 다시 확인하세요.</span>
+        </span>
+      </p>
+    </div>
+    <div class="tools">
+      <div class="search-box">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input class="search" id="search" type="search" placeholder="서비스나 기능 검색" aria-label="서비스 검색">
+      </div>
+      <button class="toggle" id="freeBtn" type="button" aria-pressed="false"><span class="sw"></span>무료만</button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="테마 전환">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="main">
+    <section class="board" id="board" aria-label="분야별 서비스"></section>
+    <aside class="detail" id="detail" aria-live="polite"></aside>
+  </div>
+
+</div>
+<script src="script.js"></script>
+</body>
+</html>
